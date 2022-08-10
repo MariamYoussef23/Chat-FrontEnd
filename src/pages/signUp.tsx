@@ -3,7 +3,7 @@ import { Col, Row, Image } from "react-bootstrap";
 import { SignUpForm } from "../components/signUpForm";
 import SignUpImage from "../images/sign-up-img.jpg";
 
-export const SignUp = () => {
+const SignUp = () => {
   return (
     <Row style={{ backgroundColor: "#D3D3D3" }}>
       <Col
@@ -21,3 +21,5 @@ export const SignUp = () => {
     </Row>
   );
 };
+
+export default SignUp;
