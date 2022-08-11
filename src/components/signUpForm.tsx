@@ -20,7 +20,9 @@ export const SignUpForm = () => {
       password: Yup.string().min(4).max(10).required("Required"),
     }),
 
-    onSubmit: () => {},
+    onSubmit: () => {
+      formik.resetForm
+    },
   });
   return (
     <Form style={{ width: "50%" }}>
