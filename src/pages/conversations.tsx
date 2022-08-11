@@ -7,6 +7,7 @@ const Conversations = () => {
     <>
       <div
         style={{ height: "60px", backgroundColor: "#f9f9f9", color: "grey" }}
+        className="text-start ps-5"
       >
         <h1>Chat</h1>
       </div>
