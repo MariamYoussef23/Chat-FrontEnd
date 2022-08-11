@@ -4,7 +4,7 @@ import SignUp from "./pages/signUp";
 import Login from "./pages/login";
 import Conversations from "./pages/conversations";
 import Chat from "./pages/chat";
-
+import "./App.css"
 
 
 function App() {
