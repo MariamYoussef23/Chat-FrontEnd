@@ -36,5 +36,9 @@
     transform: rotate(360deg);
   }
 }
-
+.pchat{
+  position:absolute;
+  left: 150px;
+  top: 10px;
+}
 
