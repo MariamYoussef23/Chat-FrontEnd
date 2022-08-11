@@ -2,7 +2,6 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import React from "react";
 import { Link } from "react-router-dom";
 
 const LoginForm = () => {
@@ -18,7 +17,7 @@ const LoginForm = () => {
       password: Yup.string().required("Required"),
     }),
     onSubmit: () => {
-      formik.resetForm;
+     
     },
   });
 
@@ -69,7 +68,9 @@ const LoginForm = () => {
       >
         Sign In
       </Button>
-      <Form.Text>Don't have an account?<Link to="/SignUp">sign Up </Link> </Form.Text>
+      <Form.Text>
+        Don't have an account?<Link to="/SignUp">sign Up </Link>{" "}
+      </Form.Text>
     </Form>
   );
 };
