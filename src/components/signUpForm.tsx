@@ -2,6 +2,8 @@ import { useFormik } from "formik";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import * as Yup from "yup";
+import { signUpAPI } from "../utils/api";
+
 
 
 export const SignUpForm = () => {
@@ -21,13 +23,15 @@ export const SignUpForm = () => {
       password: Yup.string().min(4).max(10).required("Required"),
     }),
 
-    onSubmit: () => {
-      formik.resetForm;
+    onSubmit: (values) => {
+      console.log(values)
+      signUpAPI(values)
+      formik.resetForm();
     },
   });
   return (
-    <Form style={{ width: "50%" }}>
-      <Form.Group className="mb-3" controlId="formBasicEmail">
+    <Form style={{ width: "50%" }} onSubmit={formik.handleSubmit}>
+      <Form.Group className="mb-3" controlId="formBasicFirsName">
         <Form.Label style={{ color: "#616161" }}>First Name</Form.Label>
         <Form.Control
           name="firstName"
@@ -44,7 +48,7 @@ export const SignUpForm = () => {
         </Form.Text>
       </Form.Group>
 
-      <Form.Group className="mb-3" controlId="formBasicEmail">
+      <Form.Group className="mb-3" controlId="formBasicLastName">
         <Form.Label style={{ color: "#616161" }}>Last Name</Form.Label>
         <Form.Control
           name="lastName"

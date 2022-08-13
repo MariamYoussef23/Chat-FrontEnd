@@ -22,7 +22,7 @@ const LoginForm = () => {
   });
 
   return (
-    <Form style={{ width: "50%" }}>
+    <Form style={{ width: "50%" }} onSubmit={formik.handleSubmit}>
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label style={{ color: "#616161" }}>Email</Form.Label>
         <Form.Control
