@@ -63,7 +63,7 @@ const LoginForm = () => {
           color: "white",
           border: "#464646",
         }}
-        className="w-100 mt-5 w-"
+        className="w-100 mt-5"
         type="submit"
       >
         Sign In

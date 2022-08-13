@@ -1,7 +1,8 @@
 import { useFormik } from "formik";
-
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 import * as Yup from "yup";
-import { Button, Form } from "react-bootstrap";
+
 
 export const SignUpForm = () => {
   const formik = useFormik({
@@ -12,8 +13,8 @@ export const SignUpForm = () => {
       password: "",
     },
     validationSchema: Yup.object({
-      firstName: Yup.string().required(),
-      lastName: Yup.string().required(),
+      firstName: Yup.string().required("Required"),
+      lastName: Yup.string().required("Required"),
       email: Yup.string()
         .email("Enter a valid email address")
         .required("Required"),
@@ -21,7 +22,7 @@ export const SignUpForm = () => {
     }),
 
     onSubmit: () => {
-      formik.resetForm
+      formik.resetForm;
     },
   });
   return (
@@ -29,7 +30,6 @@ export const SignUpForm = () => {
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label style={{ color: "#616161" }}>First Name</Form.Label>
         <Form.Control
-          id="firstName"
           name="firstName"
           type="firstName"
           onChange={formik.handleChange}
@@ -47,7 +47,6 @@ export const SignUpForm = () => {
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label style={{ color: "#616161" }}>Last Name</Form.Label>
         <Form.Control
-          id="lastName"
           name="lastName"
           type="lastName"
           onChange={formik.handleChange}
@@ -65,7 +64,6 @@ export const SignUpForm = () => {
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label style={{ color: "#616161" }}>Email</Form.Label>
         <Form.Control
-          id="email"
           name="email"
           type="email"
           onChange={formik.handleChange}
@@ -83,15 +81,15 @@ export const SignUpForm = () => {
       <Form.Group className="mb-3" controlId="formBasicPassword">
         <Form.Label style={{ color: "#616161" }}>Password</Form.Label>
         <Form.Control
-          id="password"
+        style={{ borderColor: "bdbdbd" }}
           name="password"
           type="password"
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.password}
-          style={{ borderColor: "bdbdbd" }}
+          
         />
-         <Form.Text className="text-muted">
+        <Form.Text className="text-muted">
           {formik.touched.password && formik.errors.password ? (
             <p>{formik.errors.password}</p>
           ) : null}
@@ -103,8 +101,8 @@ export const SignUpForm = () => {
           backgroundColor: "#464646",
           color: "#FFFFFF",
           border: "#464646",
-          width: "40%",
         }}
+        className="w-100 mt-5"
         type="submit"
       >
         Sign Up
