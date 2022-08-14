@@ -8,11 +8,24 @@ import Protected from "./utils/protected";
 import { useAppSelector } from "./redux/hooks";
 
 function App() {
-  
+  const token = useAppSelector((state) => state.auth.token);
+  console.log(token)
   return (
-  
     <div className="App">
       <Routes>
+        {/* {token === "" ? (
+          <Route path="/login" element={<Login />} />
+        ) : (
+          <Route
+            path="/"
+            element={
+              <Protected>
+                {" "}
+                <Conversations />
+              </Protected>
+            }
+          />
+        )} */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route

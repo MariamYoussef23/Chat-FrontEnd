@@ -4,7 +4,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import { loginAPI } from "../utils/api";
-import { NavigateFunction, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../redux/hooks";
 
 const LoginForm = () => {

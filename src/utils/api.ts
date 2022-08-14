@@ -7,13 +7,18 @@ import { getUser } from "../redux/authSlice";
 const API = axios.create({ baseURL: "http://localhost:5550/users/" });
 
 
-export const signUpAPI = async (values: Object) => {
+export const signUpAPI = async (values: Object, navigate: NavigateFunction, dispatch: Dispatch) => {
   try {
     const response = await API.post("/signup", values);
     //saving response to local storage
     localStorage.setItem("token", JSON.stringify(response.data.token));
+    dispatch(getUser(response.data.token))
+     if(response.status === 200){
+         navigate("/", { replace: true }) 
+    } 
   } catch (error) {
     console.log(error);
+    alert("invalid username or password")
   }
 };
 
