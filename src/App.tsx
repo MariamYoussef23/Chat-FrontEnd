@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import SignUp from "./pages/signUp";
 import Login from "./pages/login";
 import Conversations from "./pages/conversations";
@@ -6,28 +6,19 @@ import Chat from "./pages/chat";
 import "./App.css";
 import Protected from "./utils/protected";
 import { useAppSelector } from "./redux/hooks";
+import React from "react";
 
 function App() {
   const token = useAppSelector((state) => state.auth.token);
-  console.log(token)
   return (
     <div className="App">
       <Routes>
-        {/* {token === "" ? (
-          <Route path="/login" element={<Login />} />
-        ) : (
-          <Route
-            path="/"
-            element={
-              <Protected>
-                {" "}
-                <Conversations />
-              </Protected>
-            }
-          />
-        )} */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
+        <Route
+          path="/login"
+          element={token !== "" ? <Navigate to="/" /> : <Login />}
+        />
+        {/* <Route path="/login" element={<Login />} /> */}
+        <Route path="/signup" element={token !== "" ? <Navigate to="/" /> : <SignUp />} />
         <Route
           path="/"
           element={
