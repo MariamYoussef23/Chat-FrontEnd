@@ -3,6 +3,7 @@ import Form from "react-bootstrap/Form";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
+import { loginAPI } from "../utils/api";
 
 const LoginForm = () => {
   const formik = useFormik({
@@ -16,8 +17,9 @@ const LoginForm = () => {
         .required("Required"),
       password: Yup.string().required("Required"),
     }),
-    onSubmit: () => {
-     formik.resetForm
+    onSubmit: (values) => {
+      loginAPI(values)
+     formik.resetForm()
     },
   });
 

@@ -4,8 +4,6 @@ import Button from "react-bootstrap/Button";
 import * as Yup from "yup";
 import { signUpAPI } from "../utils/api";
 
-
-
 export const SignUpForm = () => {
   const formik = useFormik({
     initialValues: {
@@ -24,8 +22,8 @@ export const SignUpForm = () => {
     }),
 
     onSubmit: (values) => {
-      console.log(values)
-      signUpAPI(values)
+      console.log(values);
+      signUpAPI(values);
       formik.resetForm();
     },
   });
@@ -85,13 +83,12 @@ export const SignUpForm = () => {
       <Form.Group className="mb-3" controlId="formBasicPassword">
         <Form.Label style={{ color: "#616161" }}>Password</Form.Label>
         <Form.Control
-        style={{ borderColor: "bdbdbd" }}
+          style={{ borderColor: "bdbdbd" }}
           name="password"
           type="password"
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.password}
-          
         />
         <Form.Text className="text-muted">
           {formik.touched.password && formik.errors.password ? (
