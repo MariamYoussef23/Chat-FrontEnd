@@ -24,7 +24,7 @@ export const SignUpForm = () => {
     }),
 
     onSubmit: (values) => {
-      console.log(values)
+      
       signUpAPI(values)
       formik.resetForm();
     },
