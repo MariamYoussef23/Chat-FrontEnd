@@ -1,8 +1,11 @@
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { NavigateFunction } from "react-router-dom";
+import { Dispatch } from "redux";
+import { getUser } from "../redux/authSlice";
+
 
 const API = axios.create({ baseURL: "http://localhost:5550/users/" });
-const navigate = useNavigate();
+
 
 export const signUpAPI = async (values: Object) => {
   try {
@@ -14,12 +17,18 @@ export const signUpAPI = async (values: Object) => {
   }
 };
 
-export const loginAPI = async (values: object) => {
+export const loginAPI = async (values: object,  navigate: NavigateFunction, dispatch: Dispatch) => {
   try {
     const response = await API.post(`/login`, values);
     localStorage.setItem("token", JSON.stringify(response.data.token));
+    dispatch(getUser(response.data.token))
+     if(response.status === 200){
+         navigate("/", { replace: true }) 
+    } 
+    
   } catch (error) {
     console.log(error);
+    alert("invalid username or password")
   }
 };
 

@@ -7,6 +7,7 @@ import { AuthState } from "../types";
 
 
 const token = localStorage.getItem("token");
+console.log(token)
 const initialState: AuthState = {
   token: token !== null ? JSON.parse(token) : "",
 };
@@ -15,8 +16,8 @@ export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    getUser: (state) => {
-      state.token;
+    getUser: (state,action) => {
+      state.token = action.payload.token;
     },
   },
 });
