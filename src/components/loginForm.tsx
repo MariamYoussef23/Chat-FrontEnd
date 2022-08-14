@@ -5,7 +5,10 @@ import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import { loginAPI } from "../utils/api";
 
+
 const LoginForm = () => {
+  
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -18,8 +21,8 @@ const LoginForm = () => {
       password: Yup.string().required("Required"),
     }),
     onSubmit: (values) => {
-      loginAPI(values)
-     formik.resetForm()
+      loginAPI(values);
+      formik.resetForm();
     },
   });
 
