@@ -1,8 +1,10 @@
-import axios from "axios"
+import axios from "axios";
+
+const API = axios.create({baseURL:"http://localhost:5000/users" })
 
 export const signUpAPI = async (values: Object) => {
     try {
-        const response = await axios.post("http://localhost:5550/users/signup", values) 
+        const response = await API.post("/signup", values) 
         //saving response to local storage 
         localStorage.setItem('token', JSON.stringify(response.data.token))
     }catch (error){
@@ -10,3 +12,12 @@ export const signUpAPI = async (values: Object) => {
     }
 
 }
+
+export const loginAPI = async (values: object) => {
+  try {
+    const response = await axios.post(`/login`, values);
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
