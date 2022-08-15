@@ -16,12 +16,12 @@ export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    getUser: (state,action) => {
-      state.token = action.payload.token;
+    getToken: (state,action: PayloadAction<string>) => {
+      state.token = action.payload;
     },
   },
 });
 
-export const { getUser } = authSlice.actions;
+export const { getToken } = authSlice.actions;
 
 export default authSlice.reducer;
