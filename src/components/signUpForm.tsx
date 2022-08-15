@@ -3,8 +3,14 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import * as Yup from "yup";
 import { signUpAPI } from "../utils/api";
+import { NavigateFunction, useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../redux/hooks";
 
 export const SignUpForm = () => {
+
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch()
+
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -22,8 +28,7 @@ export const SignUpForm = () => {
     }),
 
     onSubmit: (values) => {
-      console.log(values);
-      signUpAPI(values);
+      signUpAPI(values, navigate, dispatch);
       formik.resetForm();
     },
   });
