@@ -24,7 +24,7 @@ export const SignUpForm = () => {
       email: Yup.string()
         .email("Enter a valid email address")
         .required("Required"),
-      password: Yup.string().min(4).max(10).required("Required"),
+      password: Yup.string().min(8).required("Required"),
     }),
 
     onSubmit: (values) => {
