@@ -4,12 +4,12 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import { loginAPI } from "../utils/api";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../redux/hooks";
 
 const LoginForm = () => {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
   const formik = useFormik({
     initialValues: {
@@ -20,11 +20,11 @@ const LoginForm = () => {
       email: Yup.string()
         .email("Enter a valid email address")
         .required("Required"),
-      password: Yup.string().required("Required"),
+      password: Yup.string().min(8).required("Required"),
     }),
     onSubmit: (values) => {
-      loginAPI(values, navigate, dispatch)
-      formik.resetForm(); 
+      loginAPI(values, navigate, dispatch);
+      formik.resetForm();
     },
   });
 
