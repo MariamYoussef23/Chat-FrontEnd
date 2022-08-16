@@ -6,7 +6,7 @@ import Chat from "./pages/chat";
 import "./App.css";
 import Protected from "./utils/protected";
 import { useAppSelector } from "./redux/hooks";
-import React from "react";
+import { io } from "socket.io-client"
 
 function App() {
   const token = useAppSelector((state) => state.auth.token);
@@ -18,7 +18,10 @@ function App() {
           element={token !== "" ? <Navigate to="/" /> : <Login />}
         />
         {/* <Route path="/login" element={<Login />} /> */}
-        <Route path="/signup" element={token !== "" ? <Navigate to="/" /> : <SignUp />} />
+        <Route
+          path="/signup"
+          element={token !== "" ? <Navigate to="/" /> : <SignUp />}
+        />
         <Route
           path="/"
           element={
