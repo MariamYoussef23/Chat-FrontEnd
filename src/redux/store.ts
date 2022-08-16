@@ -1,21 +1,18 @@
-import {configureStore, combineReducers} from "@reduxjs/toolkit"
-import authSlice from "./authSlice"
-import chatSlice from "./chatSlice"
-
-
-const reducer = combineReducers ({
-   auth: authSlice,
-   chat : chatSlice
-})
+import authReducer from "./authSlice";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import authSlice from "./authSlice";
+import chatSlice from "./chatSlice";
 
 const store = configureStore({
-    reducer
-})
+  reducer: {
+    auth: authSlice,
+    chat: chatSlice,
+  },
+});
 
-export default store 
-
+export default store;
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
-export type RootState = ReturnType<typeof store.getState>
+export type RootState = ReturnType<typeof store.getState>;
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
-export type AppDispatch = typeof store.dispatch
+export type AppDispatch = typeof store.dispatch;

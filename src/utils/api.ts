@@ -1,8 +1,10 @@
 import axios from "axios";
 import { NavigateFunction } from "react-router-dom";
-import { Dispatch } from "redux";
-import { getUser } from "../redux/authSlice";
+
 import { getChat } from "../redux/chatSlice";
+
+import { getToken } from "../redux/authSlice";
+import { Dispatch } from "redux";
 
 const API = axios.create({ baseURL: "http://localhost:5500/users/" });
 
@@ -15,7 +17,8 @@ export const signUpAPI = async (
     const response = await API.post("/signup", values);
     //saving response to local storage
     localStorage.setItem("token", JSON.stringify(response.data.token));
-    dispatch(getUser(response.data.token));
+
+    dispatch(getToken(response.data.token));
     if (response.status === 200) {
       navigate("/", { replace: true });
     }
@@ -33,7 +36,8 @@ export const loginAPI = async (
   try {
     const response = await API.post(`/login`, values);
     localStorage.setItem("token", JSON.stringify(response.data.token));
-    dispatch(getUser(response.data.token));
+
+    dispatch(getToken(response.data.token));
     if (response.status === 200) {
       navigate("/", { replace: true });
     }
