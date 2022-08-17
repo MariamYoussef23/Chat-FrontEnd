@@ -36,3 +36,7 @@ export interface Message {
   body: string
 
 }
+
+export interface MessageBody{
+  body: string
+}
