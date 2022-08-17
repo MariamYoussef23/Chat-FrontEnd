@@ -3,20 +3,23 @@ import bgImage from "../images/bg-img.jpg";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import React, { useState } from "react";
+import { useParams } from "react-router";
+import { useAppSelector, useAppDispatch } from "../redux/hooks";
+import { getMessagesApi } from "../utils/api";
+import React, { useEffect } from "react";
+import { Message } from "../types";
 
 const Chat = () => {
-  const [users, setUsers] = useState([
-    { name: "Mohamed", message: "Good Morning" },
-    { name: "salma",message: "Heyyy" },
-    { name: "Mohamed", message: "Wanna hang out later?" },
-    {
-      name: "Salma",
-      message:
-        "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.",
-    },
-    { name: "Mohamed", message: "Got it. " },
-  ]);
+  const {id} = useParams()
+  console.log(id)
+  const messages = useAppSelector((state) => state.messages.messages);
+  const dispatch = useAppDispatch()
+  console.log(messages)
+
+  useEffect(() => {
+    getMessagesApi(dispatch, id as unknown as number)
+  },[])
+    
   return (
     <>
       <div
@@ -37,9 +40,9 @@ const Chat = () => {
         <Container>
           <Card className="min-vh-100">
             <Card.Body style={{backgroundColor: "#EEE"}}>
-              {users.map((user) => (
-                <Row lg="1" md='1' className={
-                  user.name == "Salma"
+              {messages.map((message: Message) => (
+                <Row key={message.id} lg="1" md='1' className={
+                  message.user.email == "Salma"
                     ? "justify-content-end d-flex mt-3"
                     : "justify-content-start d-flex mt-3"
                 }>
@@ -47,8 +50,8 @@ const Chat = () => {
                     
                     style = {{backgroundColor: 'white'}}
                   >
-                    <div>{user.name}</div>
-                    <div>{user.message}</div>
+                    <div>{message.user.firstName}</div>
+                    <div>{message.body}</div>
                     <span style={{float: "right"}}>7:02 pm</span>
                   </Col>
                 </Row>
