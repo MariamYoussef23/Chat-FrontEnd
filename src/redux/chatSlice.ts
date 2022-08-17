@@ -1,19 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { ChatsState } from "../types";
 
-//get user from localStorage
-// const user = JSON.parse(localStorage.getItem('user'))
 
-const initialState = {
-  messages: [],
-};
+const initialState: ChatsState = {
+  chats: []
+}
 
 export const chatSlice = createSlice({
-  name: "chat",
+  name: "chats",
   initialState,
   reducers: {
-    getChat: (state, action) => {
-      state.messages = action.payload.messages;
+    getChat: (state, action: PayloadAction<[]>) => {
+      state.chats = action.payload;
     },
   },
 });
