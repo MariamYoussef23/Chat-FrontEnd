@@ -3,7 +3,6 @@ import { NavigateFunction } from "react-router-dom";
 import { getChat } from "../redux/chatSlice";
 import { getToken } from "../redux/authSlice";
 import { Dispatch } from "redux";
-import { isConditionalExpression } from "typescript";
 import { getMessages } from "../redux/messageSlice";
 
 const API = axios.create({ baseURL: "http://localhost:5551/" });
@@ -35,7 +34,7 @@ export const loginAPI = async (
 ) => {
   try {
     const response = await API.post(`/users/login`, values);
-    console.log(response.data.token);
+  
     localStorage.setItem("token", JSON.stringify(response.data.token));
     dispatch(getToken(response.data.token));
     if (response.status === 200) {
@@ -85,7 +84,7 @@ export const getMessagesApi = async (dispatch: Dispatch, id: string) => {
     const response = await API.get(`/chats/${id}/messages`, {
       headers: { token },
     });
-    console.log(response);
+    
     dispatch(getMessages(response.data.data));
   } catch (error) {
     console.log(error);
@@ -102,7 +101,6 @@ export const newMessage = async (id: string, body: string, dispatch: Dispatch) =
         headers: { token },
       }
     );
-    getMessagesApi(dispatch, id)
   } catch (error) {
     console.log(error);
   }

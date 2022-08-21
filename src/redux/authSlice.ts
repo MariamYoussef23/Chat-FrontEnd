@@ -3,7 +3,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { AuthState } from "../types";
 
 const token = localStorage.getItem("token");
-console.log(token);
+
 
 const initialState: AuthState = {
   token: token !== null ? JSON.parse(token) : "",

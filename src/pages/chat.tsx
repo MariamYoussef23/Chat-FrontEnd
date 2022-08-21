@@ -8,19 +8,28 @@ import { useAppSelector, useAppDispatch } from "../redux/hooks";
 import { getMessagesApi, newMessage } from "../utils/api";
 import React, { useEffect, useState } from "react";
 import { Message, MessageBody } from "../types";
+import { io, Socket } from "socket.io-client";
+import {addMessage} from "../redux/messageSlice"
 
-const Chat = () => {
+
+
+const Chat = ({ socket }: { socket: Socket | undefined }) => {
   const { id } = useParams();
-  console.log(id);
+
   const messages = useAppSelector((state) => state.messages.messages);
   const dispatch = useAppDispatch();
-  console.log(messages);
 
   useEffect(() => {
-    getMessagesApi(dispatch, id! );
-  }, []);
+    getMessagesApi(dispatch, id!);
+    socket?.on("new message", (msg) => {
+      dispatch(addMessage(msg))
+    });
+  }, [socket]);
 
-  const [body, setBody] = useState('')
+  //message body
+  const [body, setBody] = useState("");
+
+  
 
   return (
     <>
@@ -42,19 +51,19 @@ const Chat = () => {
         <Container>
           <Card className="min-vh-100">
             <Card.Body style={{ backgroundColor: "#EEE" }}>
-              {messages.map((message: Message) => (
+              {messages.map((message: Message, idx) => (
                 <Row
-                  key={message.id}
+                  key={idx}
                   lg="1"
                   md="1"
                   className={
-                    message.user.email == "Salma"
+                    message.user?.email == "Salma"
                       ? "justify-content-end d-flex mt-3"
                       : "justify-content-start d-flex mt-3"
                   }
                 >
                   <Col lg="7" md="7" style={{ backgroundColor: "white" }}>
-                    <div>{message.user.firstName}</div>
+                    <div>{message.user?.firstName}</div>
                     <div>{message.body}</div>
                     <span style={{ float: "right" }}>7:02 pm</span>
                   </Col>
@@ -77,8 +86,9 @@ const Chat = () => {
                   type="button"
                   className="ms-2"
                   onClick={() => {
-                  newMessage(id!, body, dispatch)
-                    setBody('');
+                    socket?.emit("new message", { body } );
+                    newMessage(id!, body, dispatch);
+                    setBody("");
                   }}
                 >
                   Send
@@ -93,3 +103,7 @@ const Chat = () => {
 };
 
 export default Chat;
+function MessagesState(msg: any): any {
+  throw new Error("Function not implemented.");
+}
+

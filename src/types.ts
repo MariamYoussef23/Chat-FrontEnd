@@ -6,8 +6,9 @@ export interface ChatsState {
   chats: [];
 }
 export interface MessagesState {
-  messages: [];
+  messages: Message[];
 }
+
 
 export interface User {
   id: number
@@ -29,12 +30,11 @@ export interface Chat {
 }
 
 export interface Message {
-  id:number
-  createdAt: Date
-  updatedAt: Date
-  user: User
+  id?:number
+  createdAt?: Date
+  updatedAt?: Date
+  user?: User
   body: string
-
 }
 
 export interface MessageBody{
