@@ -6,9 +6,28 @@ import Chat from "./pages/chat";
 import "./App.css";
 import Protected from "./utils/protected";
 import { useAppSelector } from "./redux/hooks";
-import { io } from "socket.io-client"
+import { io } from "socket.io-client";
+import { useEffect, useState } from "react";
+import { Socket } from "socket.io-client";
 
 function App() {
+
+  const [socket, setSocket] = useState<Socket>();
+  useEffect(() => {
+    setSocket(io("http://localhost:2222"));
+  }, []);
+
+  
+  // socket?.on("hello from server", () => {
+  //   console.log("frontend works");
+  // });
+
+  // socket.on("connect", () => {
+  //   socket.on("hello from server", () => {
+  //     console.log("frontend works");
+  //   });
+  // });
+
   const token = useAppSelector((state) => state.auth.token);
   return (
     <div className="App">
@@ -34,7 +53,7 @@ function App() {
           path="/chat/:id"
           element={
             <Protected>
-              <Chat />
+              <Chat socket={socket}/>
             </Protected>
           }
         />
