@@ -2,6 +2,7 @@ import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import {
   Button,
+  Dropdown,
   Form,
   Image,
   InputGroup,
@@ -9,47 +10,80 @@ import {
   Modal,
 } from "react-bootstrap";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { string } from "yup";
+import { number } from "yup/lib/locale";
 import ChatList from "../components/chatList";
 import backgroundImg from "../images/bg-img.jpg";
-import { useAppSelector } from "../redux/hooks";
+import { getToken } from "../redux/authSlice";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { User } from "../types";
 import { getUsers, newChatApi } from "../utils/api";
 
 const Conversations = () => {
   const [smShow, setSmShow] = useState(false);
   const [lgShow, setLgShow] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
-  const dispatch = useDispatch();
+  const logOut = () => {
+    window.localStorage.clear();
+    dispatch(getToken(""));
+  };
   const users = useAppSelector((state) => state.users.users);
 
   const getAllUsers = async () => {
     await getUsers(dispatch);
   };
 
-  useEffect(() => {
-    getAllUsers();
-  }, []);
   const formik = useFormik({
-    initialValues: {
-      chatName: "",
-      userIds: "",
+    initialValues:{
+      chatName:"",
+      userIds:[] as number[],
     },
     onSubmit: (values) => {
+      console.log(values)
       newChatApi(values);
       formik.resetForm();
     },
   });
+  const addUser = (id: number) => {
+    formik.values.userIds.push(id);
+  };
 
+  useEffect(() => {
+    getAllUsers();
+  }, []);
   return (
     <>
       <div
         style={{ height: "60px", backgroundColor: "#f9f9f9", color: "grey" }}
-        className="text-start ps-5"
+        className="text-start ps-5 d-flex justify-content-between"
       >
         <h1>Chat</h1>
-        <Button onClick={() => setSmShow(true)} className="me-2">
-          Small modal
-        </Button>
+        <Dropdown>
+          <Dropdown.Toggle variant="dark" id="dropdown-basic"></Dropdown.Toggle>
+
+          <Dropdown.Menu>
+            <Button
+              onClick={() => setSmShow(true)}
+              className="mx-2 mb-2 "
+              style={{ width: "100%" }}
+            >
+              Create Chat
+            </Button>
+            <Button
+              onClick={() => logOut()}
+              variant="dark"
+              className="mx-2 mb-2"
+              style={{ width: "100%" }}
+            >
+              logOut
+            </Button>
+          </Dropdown.Menu>
+        </Dropdown>
+      </div>
+      <div>
         <Modal
           size="sm"
           show={smShow}
@@ -58,7 +92,7 @@ const Conversations = () => {
         >
           <Modal.Header closeButton>
             <Modal.Title id="example-modal-sizes-title-sm">
-              Small Modal
+              Creating Chat
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
@@ -80,10 +114,8 @@ const Conversations = () => {
               {users.map((user, idx) => (
                 <ListGroup.Item
                   onChange={formik.handleChange}
-                  onClick={(e) => {
-                    let value: any = formik.values.userIds;
-                    value = user.id;
-                    console.log(value);
+                  onClick={() => {
+                    addUser(user.id);
                   }}
                 >
                   {user.email}
