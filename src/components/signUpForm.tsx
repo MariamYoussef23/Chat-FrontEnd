@@ -5,8 +5,10 @@ import * as Yup from "yup";
 import { signUpAPI } from "../utils/api";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../redux/hooks";
+import { io, Socket } from "socket.io-client";
 
-export const SignUpForm = () => {
+
+export const SignUpForm = ({ socket }: { socket: Socket}) => {
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch()
@@ -28,7 +30,7 @@ export const SignUpForm = () => {
     }),
 
     onSubmit: (values) => {
-      signUpAPI(values, navigate, dispatch);
+      signUpAPI(values, navigate, dispatch, socket);
       formik.resetForm();
     },
   });

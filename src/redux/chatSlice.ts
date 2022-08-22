@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { ChatsState } from "../types";
+import { Chat, ChatsState } from "../types";
 
 
-const initialState: ChatsState = {
+const initialState: {chats: Chat[]} = {
   chats: []
 }
 

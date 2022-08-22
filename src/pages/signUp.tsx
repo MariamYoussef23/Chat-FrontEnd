@@ -2,8 +2,9 @@ import React from "react";
 import { Col, Row, Image } from "react-bootstrap";
 import { SignUpForm } from "../components/signUpForm";
 import SignUpImage from "../images/sign-up-img.jpg";
+import { Socket } from "socket.io-client";
 
-const SignUp = () => {
+const SignUp = ({ socket }: { socket: Socket }) => {
   return (
     <>
       <div
@@ -22,7 +23,7 @@ const SignUp = () => {
           }}
         ></Col>
         <Col className="d-flex justify-content-center align-items-center">
-          <SignUpForm />
+          <SignUpForm socket={socket!}/>
         </Col>
       </Row>
     </>

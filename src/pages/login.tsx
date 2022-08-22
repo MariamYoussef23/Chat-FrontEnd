@@ -4,10 +4,12 @@ import Col from "react-bootstrap/Col";
 import Image from "react-bootstrap/Image";
 import loginImg from "../images/login-img.jpg";
 import LoginForm from "../components/loginForm";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAppSelector } from "../redux/hooks";
+import React from "react";
+import { Socket } from "socket.io-client";
 
-const Login = () => { 
+const Login = ({ socket }: { socket: Socket}) => {
   return (
     <>
       <div
@@ -26,7 +28,7 @@ const Login = () => {
           }}
         ></Col>
         <Col className="d-flex justify-content-center align-items-center">
-          <LoginForm />
+          <LoginForm socket={socket!}/>
         </Col>
       </Row>
     </>

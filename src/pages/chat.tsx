@@ -3,33 +3,43 @@ import bgImage from "../images/bg-img.jpg";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import jwt_decode from "jwt-decode";
 import { useParams } from "react-router";
 import { useAppSelector, useAppDispatch } from "../redux/hooks";
 import { getMessagesApi, newMessage } from "../utils/api";
 import React, { useEffect, useState } from "react";
-import { Message, MessageBody } from "../types";
+import { Message, User, ChatType } from "../types";
 import { io, Socket } from "socket.io-client";
-import {addMessage} from "../redux/messageSlice"
+import { addMessage } from "../redux/messageSlice";
+import { getChatsApi } from "../utils/api";
 
-
-
-const Chat = ({ socket }: { socket: Socket | undefined }) => {
+const Chat = ({ socket }: { socket: Socket }) => {
   const { id } = useParams();
 
   const messages = useAppSelector((state) => state.messages.messages);
   const dispatch = useAppDispatch();
 
+  const [currentUser, setCurrentUser] = useState<User>();
+  useEffect(() => {
+    getChatsApi(dispatch);
+    setCurrentUser(
+      jwt_decode(JSON.parse(localStorage.getItem("token") as string))
+    );
+  }, []);
+  const chatList = useAppSelector((state) => state.chats.chats);
+  const chat = chatList.find((chat: ChatType) => chat.id == id);
+  const users = chat?.users;
+  const userIds = users?.map((user) => user.id);
+  console.log(users)
   useEffect(() => {
     getMessagesApi(dispatch, id!);
     socket?.on("new message", (msg) => {
-      dispatch(addMessage(msg))
+      dispatch(addMessage(msg));
     });
   }, [socket]);
 
   //message body
   const [body, setBody] = useState("");
-
-  
 
   return (
     <>
@@ -57,7 +67,7 @@ const Chat = ({ socket }: { socket: Socket | undefined }) => {
                   lg="1"
                   md="1"
                   className={
-                    message.user?.email == "Salma"
+                    message.user?.email == currentUser?.email
                       ? "justify-content-end d-flex mt-3"
                       : "justify-content-start d-flex mt-3"
                   }
@@ -86,8 +96,8 @@ const Chat = ({ socket }: { socket: Socket | undefined }) => {
                   type="button"
                   className="ms-2"
                   onClick={() => {
-                    socket?.emit("new message", { body } );
                     newMessage(id!, body, dispatch);
+                    socket?.emit("message", { body, userIds });
                     setBody("");
                   }}
                 >
@@ -106,4 +116,3 @@ export default Chat;
 function MessagesState(msg: any): any {
   throw new Error("Function not implemented.");
 }
-

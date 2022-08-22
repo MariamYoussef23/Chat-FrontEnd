@@ -21,7 +21,15 @@ export interface User {
   password: string
 }
 export interface Chat {
-  id: number
+  id: string
+  chatName: string
+  ChatImgURL: string
+  createdAt: Date
+  updatedAt: Date
+  users: User[]
+}
+export interface ChatType {
+  id: string
   chatName: string
   ChatImgURL: string
   createdAt: Date

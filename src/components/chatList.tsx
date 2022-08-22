@@ -10,10 +10,10 @@ const ChatList = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   
-
   useEffect(() => {
     getChatsApi(dispatch)
   },[])
+  
   return (
     <>
       {chatList.map((chat: Chat) => (

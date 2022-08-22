@@ -5,16 +5,18 @@ import Conversations from "./pages/conversations";
 import Chat from "./pages/chat";
 import "./App.css";
 import Protected from "./utils/protected";
-import { useAppSelector } from "./redux/hooks";
+import { useAppDispatch, useAppSelector } from "./redux/hooks";
 import { io } from "socket.io-client";
 import { useEffect, useState } from "react";
 import { Socket } from "socket.io-client";
 
-function App() {
+import { getChatsApi } from "./utils/api";
 
+function App() {
+  
   const [socket, setSocket] = useState<Socket>();
   useEffect(() => {
-    setSocket(io("http://localhost:2222"));
+    setSocket(io("http://localhost:1212"));
   }, []);
 
   
@@ -29,17 +31,18 @@ function App() {
   // });
 
   const token = useAppSelector((state) => state.auth.token);
+
   return (
     <div className="App">
       <Routes>
         <Route
           path="/login"
-          element={token !== "" ? <Navigate to="/" /> : <Login />}
+          element={token !== "" ? <Navigate to="/" /> : <Login socket={socket!}/>}
         />
         {/* <Route path="/login" element={<Login />} /> */}
         <Route
           path="/signup"
-          element={token !== "" ? <Navigate to="/" /> : <SignUp />}
+          element={token !== "" ? <Navigate to="/" /> : <SignUp  socket={socket!}/>}
         />
         <Route
           path="/"
@@ -53,7 +56,7 @@ function App() {
           path="/chat/:id"
           element={
             <Protected>
-              <Chat socket={socket}/>
+              <Chat socket={socket!}/>
             </Protected>
           }
         />

@@ -6,8 +6,9 @@ import { Link } from "react-router-dom";
 import { loginAPI } from "../utils/api";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../redux/hooks";
+import { io, Socket } from "socket.io-client";
 
-const LoginForm = () => {
+const LoginForm = ({ socket }: { socket: Socket}) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -23,7 +24,7 @@ const LoginForm = () => {
       password: Yup.string().min(8).required("Required"),
     }),
     onSubmit: (values) => {
-      loginAPI(values, navigate, dispatch);
+      loginAPI(values, navigate, dispatch, socket);
       formik.resetForm();
     },
   });

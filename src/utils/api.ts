@@ -4,21 +4,28 @@ import { getChat } from "../redux/chatSlice";
 import { getToken } from "../redux/authSlice";
 import { Dispatch } from "redux";
 import { getMessages } from "../redux/messageSlice";
+import jwt_decode from "jwt-decode";
+import { io, Socket } from "socket.io-client";
+import { User } from "../types";
 
-const API = axios.create({ baseURL: "http://localhost:5551/" });
+const API = axios.create({ baseURL: "http://localhost:1111/" });
 
 export const signUpAPI = async (
   values: Object,
   navigate: NavigateFunction,
-  dispatch: Dispatch
+  dispatch: Dispatch,
+  socket: Socket
 ) => {
   try {
     const response = await API.post("/users/signup", values);
-    //saving response to local storage
+    //saving response (token) to local storage
     localStorage.setItem("token", JSON.stringify(response.data.token));
-
     dispatch(getToken(response.data.token));
     if (response.status === 200) {
+      const currentUser = jwt_decode(
+        JSON.parse(localStorage.getItem("token") as string)
+      ) as User;
+      socket?.emit("room", currentUser.email);
       navigate("/", { replace: true });
     }
   } catch (error) {
@@ -30,14 +37,19 @@ export const signUpAPI = async (
 export const loginAPI = async (
   values: object,
   navigate: NavigateFunction,
-  dispatch: Dispatch
+  dispatch: Dispatch,
+  socket: Socket
 ) => {
   try {
     const response = await API.post(`/users/login`, values);
-  
+
     localStorage.setItem("token", JSON.stringify(response.data.token));
     dispatch(getToken(response.data.token));
     if (response.status === 200) {
+      const currentUser = jwt_decode(
+        JSON.parse(localStorage.getItem("token") as string)
+      ) as User;
+      socket?.emit("room", currentUser.email);
       navigate("/", { replace: true });
     }
   } catch (error) {
@@ -84,14 +96,18 @@ export const getMessagesApi = async (dispatch: Dispatch, id: string) => {
     const response = await API.get(`/chats/${id}/messages`, {
       headers: { token },
     });
-    
+
     dispatch(getMessages(response.data.data));
   } catch (error) {
     console.log(error);
   }
 };
 
-export const newMessage = async (id: string, body: string, dispatch: Dispatch) => {
+export const newMessage = async (
+  id: string,
+  body: string,
+  dispatch: Dispatch
+) => {
   try {
     const token = JSON.parse(localStorage.getItem("token") as string);
     const newMessage = await API.post(
