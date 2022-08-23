@@ -11,22 +11,10 @@ import { useEffect, useState } from "react";
 import { Socket } from "socket.io-client";
 
 function App() {
-
   const [socket, setSocket] = useState<Socket>();
   useEffect(() => {
     setSocket(io("http://localhost:2222"));
   }, []);
-
-  
-  // socket?.on("hello from server", () => {
-  //   console.log("frontend works");
-  // });
-
-  // socket.on("connect", () => {
-  //   socket.on("hello from server", () => {
-  //     console.log("frontend works");
-  //   });
-  // });
 
   const token = useAppSelector((state) => state.auth.token);
   return (
@@ -53,7 +41,7 @@ function App() {
           path="/chat/:id"
           element={
             <Protected>
-              <Chat socket={socket}/>
+              <Chat socket={socket} />
             </Protected>
           }
         />

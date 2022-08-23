@@ -4,8 +4,9 @@ import { getChat } from "../redux/chatSlice";
 import { getToken } from "../redux/authSlice";
 import { Dispatch } from "redux";
 import { getMessages } from "../redux/messageSlice";
+import { getUserswithoutme } from "../redux/userSlice";
 
-const API = axios.create({ baseURL: "http://localhost:5551/" });
+const API = axios.create({ baseURL: "http://localhost:5551" });
 
 export const signUpAPI = async (
   values: Object,
@@ -34,7 +35,7 @@ export const loginAPI = async (
 ) => {
   try {
     const response = await API.post(`/users/login`, values);
-  
+
     localStorage.setItem("token", JSON.stringify(response.data.token));
     dispatch(getToken(response.data.token));
     if (response.status === 200) {
@@ -58,11 +59,9 @@ export const userInfoAPI = async () => {
 export const newChatApi = async (values: object) => {
   try {
     const token = JSON.parse(localStorage.getItem("token") as string);
-    const newChat = await API.post(
-      "/chats/chat",
-      { headers: { token } },
-      values
-    );
+    const newChat = await API.post("/chats/chat", values, {
+      headers: { token },
+    });
   } catch (error) {
     console.log(error);
   }
@@ -84,14 +83,18 @@ export const getMessagesApi = async (dispatch: Dispatch, id: string) => {
     const response = await API.get(`/chats/${id}/messages`, {
       headers: { token },
     });
-    
+
     dispatch(getMessages(response.data.data));
   } catch (error) {
     console.log(error);
   }
 };
 
-export const newMessage = async (id: string, body: string, dispatch: Dispatch) => {
+export const newMessage = async (
+  id: string,
+  body: string,
+  dispatch: Dispatch
+) => {
   try {
     const token = JSON.parse(localStorage.getItem("token") as string);
     const newMessage = await API.post(
@@ -101,6 +104,17 @@ export const newMessage = async (id: string, body: string, dispatch: Dispatch) =
         headers: { token },
       }
     );
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getUsers = async (dispatch: Dispatch) => {
+  try {
+    const token = JSON.parse(localStorage.getItem("token") as string);
+    const res = await API.get("/users", { headers: { token } });
+    dispatch(getUserswithoutme(res.data.data));
+    return res;
   } catch (error) {
     console.log(error);
   }
