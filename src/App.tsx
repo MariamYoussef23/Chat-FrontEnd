@@ -20,15 +20,7 @@ function App() {
   }, []);
 
   
-  // socket?.on("hello from server", () => {
-  //   console.log("frontend works");
-  // });
-
-  // socket.on("connect", () => {
-  //   socket.on("hello from server", () => {
-  //     console.log("frontend works");
-  //   });
-  // });
+  
 
   const token = useAppSelector((state) => state.auth.token);
 

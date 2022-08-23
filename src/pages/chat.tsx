@@ -20,6 +20,7 @@ const Chat = ({ socket }: { socket: Socket }) => {
   const dispatch = useAppDispatch();
 
   const [currentUser, setCurrentUser] = useState<User>();
+
   useEffect(() => {
     getChatsApi(dispatch);
     setCurrentUser(
@@ -29,14 +30,18 @@ const Chat = ({ socket }: { socket: Socket }) => {
   const chatList = useAppSelector((state) => state.chats.chats);
   const chat = chatList.find((chat: ChatType) => chat.id == id);
   const users = chat?.users;
-  const userIds = users?.map((user) => user.id);
-  console.log(users)
+  const userEmails = users?.map((user) => user.email);
+  
+
   useEffect(() => {
     getMessagesApi(dispatch, id!);
+    console.log('socket')
     socket?.on("new message", (msg) => {
+      console.log("msg")
       dispatch(addMessage(msg));
     });
   }, [socket]);
+
 
   //message body
   const [body, setBody] = useState("");
@@ -97,7 +102,7 @@ const Chat = ({ socket }: { socket: Socket }) => {
                   className="ms-2"
                   onClick={() => {
                     newMessage(id!, body, dispatch);
-                    socket?.emit("message", { body, userIds });
+                    socket?.emit("message", { body, userEmails });
                     setBody("");
                   }}
                 >

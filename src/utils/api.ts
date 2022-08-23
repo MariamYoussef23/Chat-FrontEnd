@@ -25,7 +25,8 @@ export const signUpAPI = async (
       const currentUser = jwt_decode(
         JSON.parse(localStorage.getItem("token") as string)
       ) as User;
-      socket?.emit("room", currentUser.email);
+      const userEmail = currentUser.email
+      socket?.emit("room", userEmail);
       navigate("/", { replace: true });
     }
   } catch (error) {
@@ -49,7 +50,8 @@ export const loginAPI = async (
       const currentUser = jwt_decode(
         JSON.parse(localStorage.getItem("token") as string)
       ) as User;
-      socket?.emit("room", currentUser.email);
+      const userEmail = currentUser.email
+      socket?.emit("room", userEmail);
       navigate("/", { replace: true });
     }
   } catch (error) {
