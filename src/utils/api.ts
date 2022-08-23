@@ -7,8 +7,9 @@ import { getMessages } from "../redux/messageSlice";
 import jwt_decode from "jwt-decode";
 import { io, Socket } from "socket.io-client";
 import { User } from "../types";
+import { getUserswithoutme } from "../redux/userSlice";
 
-const API = axios.create({ baseURL: "http://localhost:1111/" });
+const API = axios.create({ baseURL: "http://localhost:5551" });
 
 export const signUpAPI = async (
   values: Object,
@@ -72,11 +73,9 @@ export const userInfoAPI = async () => {
 export const newChatApi = async (values: object) => {
   try {
     const token = JSON.parse(localStorage.getItem("token") as string);
-    const newChat = await API.post(
-      "/chats/chat",
-      { headers: { token } },
-      values
-    );
+    const newChat = await API.post("/chats/chat", values, {
+      headers: { token },
+    });
   } catch (error) {
     console.log(error);
   }
@@ -119,6 +118,17 @@ export const newMessage = async (
         headers: { token },
       }
     );
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getUsers = async (dispatch: Dispatch) => {
+  try {
+    const token = JSON.parse(localStorage.getItem("token") as string);
+    const res = await API.get("/users", { headers: { token } });
+    dispatch(getUserswithoutme(res.data.data));
+    return res;
   } catch (error) {
     console.log(error);
   }

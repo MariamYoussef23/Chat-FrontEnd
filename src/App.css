@@ -1,5 +1,3 @@
-
-
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -34,9 +32,10 @@
     transform: rotate(360deg);
   }
 }
-.pchat{
-  position:absolute;
+.pchat {
+  position: absolute;
   left: 150px;
-  top: 10px;
 }
-
+.arrowIcon {
+  color: #808080;
+}

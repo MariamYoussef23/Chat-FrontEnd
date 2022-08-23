@@ -10,17 +10,17 @@ import { io } from "socket.io-client";
 import { useEffect, useState } from "react";
 import { Socket } from "socket.io-client";
 
+
 import { getChatsApi } from "./utils/api";
 
 function App() {
   
+
   const [socket, setSocket] = useState<Socket>();
   useEffect(() => {
     setSocket(io("http://localhost:1212"));
   }, []);
 
-  
-  
 
   const token = useAppSelector((state) => state.auth.token);
 

@@ -12,6 +12,8 @@ import { Message, User, ChatType } from "../types";
 import { io, Socket } from "socket.io-client";
 import { addMessage } from "../redux/messageSlice";
 import { getChatsApi } from "../utils/api";
+import { Link } from "react-router-dom";
+import { FiArrowLeft } from "react-icons/fi";
 
 const Chat = ({ socket }: { socket: Socket }) => {
   const { id } = useParams();
@@ -50,8 +52,14 @@ const Chat = ({ socket }: { socket: Socket }) => {
     <>
       <div
         style={{ height: "60px", backgroundColor: "#f9f9f9", color: "grey" }}
-        className="text-start ps-5"
+        className="text-start ps-5 d-flex justify-content-start"
       >
+        <Link to={"/"}>
+          <h1>
+            {" "}
+            <FiArrowLeft className="arrowIcon" />
+          </h1>
+        </Link>
         <h1>Chat</h1>
       </div>
       <div
@@ -63,7 +71,7 @@ const Chat = ({ socket }: { socket: Socket }) => {
         }}
         className="min-vh-100"
       >
-        <Container>
+        <Container style={{ width: "30% " }}>
           <Card className="min-vh-100">
             <Card.Body style={{ backgroundColor: "#EEE" }}>
               {messages.map((message: Message, idx) => (
