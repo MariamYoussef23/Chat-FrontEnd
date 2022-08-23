@@ -9,6 +9,7 @@ import {
   ListGroup,
   Modal,
 } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 import { useNavigate } from "react-router-dom";
 
@@ -60,22 +61,25 @@ const Conversations = () => {
         className="text-start ps-5 d-flex justify-content-between"
       >
         <h1>Chat</h1>
-        <Dropdown>
-          <Dropdown.Toggle variant="dark" id="dropdown-basic"></Dropdown.Toggle>
+        <Dropdown className="m-2">
+          <Dropdown.Toggle
+            style={{ backgroundColor: "#808080" }}
+            id="dropdown-basic"
+          ></Dropdown.Toggle>
 
           <Dropdown.Menu>
             <Button
               onClick={() => setSmShow(true)}
-              className="mx-2 mb-2 "
-              style={{ width: "100%" }}
+              className=" mx-2 mb-2 "
+              style={{ width: "90%" }}
             >
               Create Chat
             </Button>
             <Button
               onClick={() => logOut()}
               variant="dark"
-              className="mx-2 mb-2"
-              style={{ width: "100%" }}
+              className=" mx-2 mb-2"
+              style={{ width: "90%" }}
             >
               logOut
             </Button>
@@ -122,8 +126,8 @@ const Conversations = () => {
               ))}
             </ListGroup>
           </Modal.Body>
-          <Button onClick={() => formik.handleSubmit()} variant="secondary">
-            Submit
+          <Button  onClick={() => formik.handleSubmit()} variant="secondary">
+            Add 
           </Button>
         </Modal>
       </div>
