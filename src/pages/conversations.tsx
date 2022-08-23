@@ -9,15 +9,14 @@ import {
   ListGroup,
   Modal,
 } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+
 import { useNavigate } from "react-router-dom";
-import { string } from "yup";
-import { number } from "yup/lib/locale";
+
 import ChatList from "../components/chatList";
 import backgroundImg from "../images/bg-img.jpg";
 import { getToken } from "../redux/authSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { User } from "../types";
+
 import { getUsers, newChatApi } from "../utils/api";
 
 const Conversations = () => {
@@ -37,12 +36,12 @@ const Conversations = () => {
   };
 
   const formik = useFormik({
-    initialValues:{
-      chatName:"",
-      userIds:[] as number[],
+    initialValues: {
+      chatName: "",
+      userIds: [] as number[],
     },
     onSubmit: (values) => {
-      console.log(values)
+      console.log(values);
       newChatApi(values);
       formik.resetForm();
     },
